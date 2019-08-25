@@ -1,0 +1,41 @@
+{
+  "generator-jhipster": {
+    "promptValues": {
+      "packageName": "com.limonnana",
+      "nativeLanguage": "en"
+    },
+    "jhipsterVersion": "6.2.0",
+    "applicationType": "monolith",
+    "baseName": "limonnana",
+    "packageName": "com.limonnana",
+    "packageFolder": "com/limonnana",
+    "serverPort": "8080",
+    "authenticationType": "jwt",
+    "cacheProvider": "ehcache",
+    "enableHibernateCache": true,
+    "websocket": false,
+    "databaseType": "sql",
+    "devDatabaseType": "postgresql",
+    "prodDatabaseType": "postgresql",
+    "searchEngine": false,
+    "messageBroker": false,
+    "serviceDiscoveryType": false,
+    "buildTool": "maven",
+    "enableSwaggerCodegen": false,
+    "jwtSecretKey": "YzExNzRjZjM2YjJkNGJiZmZkNDcwNDJkNDQ3NzEyM2NiNThhZDYxYmM3ZTIzYzYwZGY0Njc0Njc0ZmM3MDY5ZTI3ZTk4MzMwNGQ4OWNhZTVlZGJkYTNiMmVlNDI0MmE1NTVjMDFhZjA3ZGZhZDQ3ZDNmOTFiN2U1ZGVhNzQxZjc=",
+    "useSass": true,
+    "clientPackageManager": "npm",
+    "clientFramework": "angularX",
+    "clientTheme": "none",
+    "clientThemeVariant": "",
+    "testFrameworks": [],
+    "jhiPrefix": "jhi",
+    "entitySuffix": "",
+    "dtoSuffix": "DTO",
+    "otherModules": [],
+    "enableTranslation": true,
+    "nativeLanguage": "en",
+    "languages": ["en", "es"],
+    "blueprints": []
+  }
+}
