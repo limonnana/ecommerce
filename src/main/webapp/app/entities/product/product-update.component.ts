@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 import { IProduct, Product } from 'app/shared/model/product.model';
 import { ProductService } from './product.service';
 import { CategoryService } from '../category/category.service';
-import { Category, ICategory } from 'app/shared/model/category.model';
+import { ICategory } from 'app/shared/model/category.model';
 import { filter, map } from 'rxjs/operators';
 import { JhiAlertService } from 'ng-jhipster';
 
@@ -16,7 +16,7 @@ import { JhiAlertService } from 'ng-jhipster';
 })
 export class ProductUpdateComponent implements OnInit {
   isSaving: boolean;
-  categoryList: Category[] = [];
+  categoryList: ICategory[] = [];
 
   editForm = this.fb.group({
     id: [],

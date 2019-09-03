@@ -1,15 +1,38 @@
 <div class="row justify-content-center">
     <div class="col-8">
         <div *ngIf="category">
-            <h2><span jhiTranslate="limonnanaApp.category.detail.title">Category</span> {{category.id}}</h2>
-            <hr>
+                <span jhiTranslate="limonnanaApp.category.detail.title">Category</span>
+            <h2> {{category.name}}</h2>
+            
             <jhi-alert-error></jhi-alert-error>
-            <dl class="row-md jh-entity-details">
-                <dt><span jhiTranslate="limonnanaApp.category.name">Name</span></dt>
-                <dd>
-                    <span>{{category.name}}</span>
-                </dd>
-            </dl>
+           
+            <div class="table-responsive" *ngIf="!categoryListIsEmpty">
+                <table class="table table-striped">
+                    <thead>
+                   Categories children 
+                    </thead>
+                    <tbody *ngIf ="category.categories">
+                    <tr *ngFor="let kategory of category.categories">
+                         <td>{{kategory.name}}</td>
+                    </tr>
+                    </tbody>
+                    </table>
+              </div>
+
+              <div class="table-responsive" *ngIf="!productListIsEmpty">
+                    <table class="table table-striped">
+                        <thead>
+                       Products in this category
+                        </thead>
+                        <tbody *ngIf ="category.products">
+                        <tr *ngFor="let product of category.products">
+                             <td>{{product.name}}</td>
+                        </tr>
+                        </tbody>
+                        </table>
+                  </div>
+    
+
 
             <button type="submit"
                     (click)="previousState()"
@@ -23,5 +46,8 @@
                 <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
             </button>
         </div>
+
+       
+
     </div>
 </div>

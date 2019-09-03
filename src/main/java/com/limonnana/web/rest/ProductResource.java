@@ -57,27 +57,30 @@ public class ProductResource {
      */
     @PostMapping("/products")
     public ResponseEntity<Product> createProduct(@Valid @RequestBody Product product) throws URISyntaxException {
+        Product result = null;
         log.debug("REST request to save Product : {}", product);
         if (product.getId() != null) {
             throw new BadRequestAlertException("A new product cannot already have an ID", ENTITY_NAME, "idexists");
         }
+       if(product.getCategory() != null && product.getCategory().intValue() > 0 ) {
+           saveProductInCategory(product);
+           result = new Product();
+           result.setId(1L);
+       }else
+       {
+           result = productRepository.save(product);
+       }
 
-       Category category = categoryRepository.findById(product.getCategory().longValue()).get();
-        Set<Product> productList = category.getProducts();
-        //Hibernate.initialize(productList);
-        int i = productList.size();
-        System.out.println(" ***************************** Size: " + i);
-
-        productList.add(product);
-        category = categoryRepository.save(category);
-
-        System.out.println(" ***************************** category.name: " + category.getId());
-       // Product result = productRepository.save(product);
-        Product result = new Product();
-        result.setId(1L);
         return ResponseEntity.created(new URI("/api/products/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
             .body(result);
+    }
+
+    private void saveProductInCategory(@RequestBody @Valid Product product) {
+        Category category = categoryRepository.findById(product.getCategory().longValue()).get();
+        Set<Product> productList = category.getProducts();
+        productList.add(product);
+        categoryRepository.save(category);
     }
 
     /**
@@ -91,11 +94,19 @@ public class ProductResource {
      */
     @PutMapping("/products")
     public ResponseEntity<Product> updateProduct(@Valid @RequestBody Product product) throws URISyntaxException {
+        Product result = null;
         log.debug("REST request to update Product : {}", product);
         if (product.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
-        Product result = productRepository.save(product);
+        if(product.getCategory() != null && product.getCategory().intValue() > 0 ) {
+            saveProductInCategory(product);
+            result = new Product();
+            result.setId(1L);
+        }else
+        {
+            result = productRepository.save(product);
+        }
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, product.getId().toString()))
             .body(result);
