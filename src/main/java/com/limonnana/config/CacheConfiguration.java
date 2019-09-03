@@ -43,6 +43,9 @@ public class CacheConfiguration {
             createCache(cm, com.limonnana.domain.User.class.getName());
             createCache(cm, com.limonnana.domain.Authority.class.getName());
             createCache(cm, com.limonnana.domain.User.class.getName() + ".authorities");
+            createCache(cm, com.limonnana.domain.Product.class.getName());
+            createCache(cm, com.limonnana.domain.Category.class.getName());
+            createCache(cm, com.limonnana.domain.Category.class.getName() + ".productLists");
             // jhipster-needle-ehcache-add-entry
         };
     }

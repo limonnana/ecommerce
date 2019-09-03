@@ -30,6 +30,7 @@ public class LimonnanaApp implements InitializingBean {
 
     public LimonnanaApp(Environment env) {
         this.env = env;
+
     }
 
     /**
