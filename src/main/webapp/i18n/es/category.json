@@ -2,21 +2,25 @@
   "limonnanaApp": {
     "category": {
       "home": {
-        "title": "Categories",
-        "createLabel": "Crear nuevo Category",
-        "createOrEditLabel": "Crear o editar Category",
+        "title": "Categorias",
+        "createLabel": "Crear nueva Categoria",
+        "createOrEditLabel": "Crear o editar Categoria",
         "notFound": "No Categories found"
       },
+      "category": "Category",
+      "belongsToCategory": "belongs to category",
       "created": "Un nuevo Category ha sido creado con el identificador {{ param }}",
       "updated": "Un Category ha sido actualizado con el identificador {{ param }}",
       "deleted": "Un Category ha sido eliminado con el identificador {{ param }}",
       "delete": {
-        "question": "¿Seguro que quiere eliminar Category {{ id }}?"
+        "question": "¿Seguro que quiere eliminar la categoria con el id: {{ id }}?"
       },
       "detail": {
-        "title": "Category"
+        "title": "Categoria",
+        "children": "Sub Categorias",
+        "productsInThisCategory": "Products in this category"
       },
-      "name": "Name",
+      "name": "Nombre",
       "productList": "Product List"
     }
   }

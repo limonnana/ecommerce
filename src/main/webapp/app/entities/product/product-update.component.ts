@@ -82,9 +82,6 @@ export class ProductUpdateComponent implements OnInit {
   }
 
   private createFromForm(): IProduct {
-    const category = this.editForm.get(['category']).value;
-    console.log('category: ' + category);
-
     return {
       ...new Product(),
       id: this.editForm.get(['id']).value,

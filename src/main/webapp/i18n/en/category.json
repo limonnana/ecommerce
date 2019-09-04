@@ -7,6 +7,8 @@
         "createOrEditLabel": "Create or edit a Category",
         "notFound": "No Categories found"
       },
+      "category": "Category",
+      "belongsToCategory": "belongs to category",
       "created": "A new Category is created with identifier {{ param }}",
       "updated": "A Category is updated with identifier {{ param }}",
       "deleted": "A Category is deleted with identifier {{ param }}",
@@ -14,7 +16,9 @@
         "question": "Are you sure you want to delete Category {{ id }}?"
       },
       "detail": {
-        "title": "Category"
+        "title": "Category",
+        "children": "Categories children",
+        "productsInThisCategory": "Products in this category"
       },
       "name": "Name",
       "productList": "Product List"

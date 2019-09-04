@@ -9,7 +9,7 @@
             <div class="table-responsive" *ngIf="!categoryListIsEmpty">
                 <table class="table table-striped">
                     <thead>
-                   Categories children 
+                        <span jhiTranslate="limonnanaApp.category.detail.children">Categories children</span>
                     </thead>
                     <tbody *ngIf ="category.categories">
                     <tr *ngFor="let kategory of category.categories">
@@ -22,7 +22,7 @@
               <div class="table-responsive" *ngIf="!productListIsEmpty">
                     <table class="table table-striped">
                         <thead>
-                       Products in this category
+                         <span jhiTranslate="limonnanaApp.category.detail.productsInThisCategory">Products in this category</span>
                         </thead>
                         <tbody *ngIf ="category.products">
                         <tr *ngFor="let product of category.products">

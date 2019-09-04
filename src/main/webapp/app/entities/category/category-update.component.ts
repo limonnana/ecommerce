@@ -15,6 +15,7 @@ import { JhiAlertService } from 'ng-jhipster';
 export class CategoryUpdateComponent implements OnInit {
   isSaving: boolean;
   categoryList: Category[] = [];
+  //nrSelect = [];
 
   editForm = this.fb.group({
     id: [],

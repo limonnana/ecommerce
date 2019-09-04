@@ -11,7 +11,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="form-control-label" for="category">Belongs to Category</label>
+                    <label class="form-control-label" for="category" jhiTranslate="limonnanaApp.category.belongsToCategory">Belongs to Category</label>
                     <select class="form-control" name="category" formControlName="category" id="category">
                         <option [value]="category.id" *ngFor="let category of categoryList" > {{category.name}}</option>
                     </select>

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { JhiEventManager } from 'ng-jhipster';
+import { FormBuilder, Validators } from '@angular/forms';
 
 import { LoginModalService, AccountService, Account } from 'app/core';
 
@@ -16,14 +17,19 @@ export class HomeComponent implements OnInit {
   constructor(
     private accountService: AccountService,
     private loginModalService: LoginModalService,
-    private eventManager: JhiEventManager
+    private eventManager: JhiEventManager,
+    private fb: FormBuilder
   ) {}
+
+  searchForm = this.fb.group({
+    searchField: []
+  });
 
   ngOnInit() {
     this.accountService.identity().then((account: Account) => {
       this.account = account;
     });
-    this.registerAuthenticationSuccess();
+    //this.registerAuthenticationSuccess();
   }
 
   registerAuthenticationSuccess() {

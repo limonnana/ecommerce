@@ -35,21 +35,4 @@ export class CategoryService {
   delete(id: number): Observable<HttpResponse<any>> {
     return this.http.delete<any>(`${this.resourceUrl}/${id}`, { observe: 'response' });
   }
-
-  fillCategoryList(categoryList: ICategory[]) {
-    this.query()
-      .pipe(
-        filter((res: HttpResponse<ICategory[]>) => res.ok),
-        map((res: HttpResponse<ICategory[]>) => res.body)
-      )
-      .subscribe(
-        (res: ICategory[]) => {
-          categoryList = res;
-        },
-        (res: HttpErrorResponse) => this.onError(res.message)
-      );
-  }
-  protected onError(errorMessage: string) {
-    this.jhiAlertService.error(errorMessage, null, null);
-  }
 }
