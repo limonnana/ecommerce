@@ -14,6 +14,10 @@ export class HomeComponent implements OnInit {
   account: Account;
   modalRef: NgbModalRef;
 
+  searchForm = this.fb.group({
+    searchField: []
+  });
+
   constructor(
     private accountService: AccountService,
     private loginModalService: LoginModalService,
@@ -21,15 +25,11 @@ export class HomeComponent implements OnInit {
     private fb: FormBuilder
   ) {}
 
-  searchForm = this.fb.group({
-    searchField: []
-  });
-
   ngOnInit() {
     this.accountService.identity().then((account: Account) => {
       this.account = account;
     });
-    //this.registerAuthenticationSuccess();
+    // this.registerAuthenticationSuccess();
   }
 
   registerAuthenticationSuccess() {

@@ -11,8 +11,8 @@ import { JhiAlertService } from 'ng-jhipster';
 export class CategoryDetailComponent implements OnInit {
   category: ICategory;
   categoryList: ICategory[] = [];
-  categoryListIsEmpty: boolean = true;
-  productListIsEmpty: boolean = true;
+  categoryListIsEmpty = true;
+  productListIsEmpty = true;
 
   constructor(
     protected activatedRoute: ActivatedRoute,

@@ -9,6 +9,7 @@
         "main": "Entidades",
         "product": "Product",
         "category": "Category",
+        "keyWord": "Key Word",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
       "account": {

@@ -1,0 +1,23 @@
+{
+  "limonnanaApp": {
+    "keyWord": {
+      "home": {
+        "title": "Key Words",
+        "createLabel": "Create a new Key Word",
+        "createOrEditLabel": "Create or edit a Key Word",
+        "notFound": "No Key Words found"
+      },
+      "created": "A new Key Word is created with identifier {{ param }}",
+      "updated": "A Key Word is updated with identifier {{ param }}",
+      "deleted": "A Key Word is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Key Word {{ id }}?"
+      },
+      "detail": {
+        "title": "Key Word"
+      },
+      "name": "Name",
+      "category": "Category"
+    }
+  }
+}

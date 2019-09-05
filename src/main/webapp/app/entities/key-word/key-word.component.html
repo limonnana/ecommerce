@@ -1,0 +1,63 @@
+<div>
+    <h2 id="page-heading">
+        <span jhiTranslate="limonnanaApp.keyWord.home.title">Key Words</span>
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-key-word" [routerLink]="['/key-word/new']">
+            <fa-icon [icon]="'plus'"></fa-icon>
+            <span  jhiTranslate="limonnanaApp.keyWord.home.createLabel">
+            Create a new Key Word
+            </span>
+        </button>
+    </h2>
+    <jhi-alert></jhi-alert>
+    <br/>
+    <div class="alert alert-warning" *ngIf="keyWords?.length === 0">
+        <span jhiTranslate="limonnanaApp.keyWord.home.notFound">No keyWords found</span>
+    </div>
+    <div class="table-responsive" *ngIf="keyWords?.length > 0">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+            <th><span jhiTranslate="global.field.id">ID</span></th>
+            <th><span jhiTranslate="limonnanaApp.keyWord.name">Name</span></th>
+            <th><span jhiTranslate="limonnanaApp.keyWord.category">Category</span></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let keyWord of keyWords ;trackBy: trackId">
+                <td><a [routerLink]="['/key-word', keyWord.id, 'view' ]">{{keyWord.id}}</a></td>
+                <td>{{keyWord.name}}</td>
+                <td>
+                    <div *ngIf="keyWord.category">
+                        <a [routerLink]="['/category', keyWord.category?.id, 'view' ]" >{{keyWord.category?.name}}</a>
+                    </div>
+                </td>
+                <td class="text-right">
+                    <div class="btn-group">
+                        <button type="submit"
+                                [routerLink]="['/key-word', keyWord.id, 'view' ]"
+                                class="btn btn-info btn-sm">
+                            <fa-icon [icon]="'eye'"></fa-icon>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/key-word', keyWord.id, 'edit']"
+                                class="btn btn-primary btn-sm">
+                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/key-word', { outlets: { popup: keyWord.id + '/delete'} }]"
+                                replaceUrl="true"
+                                queryParamsHandling="merge"
+                                class="btn btn-danger btn-sm">
+                            <fa-icon [icon]="'times'"></fa-icon>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

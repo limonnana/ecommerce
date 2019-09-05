@@ -11,6 +11,10 @@ import { RouterModule } from '@angular/router';
       {
         path: 'category',
         loadChildren: () => import('./category/category.module').then(m => m.LimonnanaCategoryModule)
+      },
+      {
+        path: 'key-word',
+        loadChildren: () => import('./key-word/key-word.module').then(m => m.LimonnanaKeyWordModule)
       }
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
     ])
