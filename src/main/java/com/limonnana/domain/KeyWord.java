@@ -7,6 +7,7 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 
 import java.io.Serializable;
+import java.util.Set;
 
 /**
  * A KeyWord.
@@ -21,13 +22,19 @@ public class KeyWord implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
     @SequenceGenerator(name = "sequenceGenerator")
+    @Column(name = "key_word_id")
     private Long id;
 
     @NotNull
     @Column(name = "name", nullable = false)
     private String name;
 
-    @ManyToOne
+
+    @ManyToOne(fetch = FetchType.EAGER, cascade=CascadeType.MERGE)
+    @JoinTable(name = "key_word_categories",
+        joinColumns = @JoinColumn(name = "category_id"),
+        inverseJoinColumns = @JoinColumn(name = "key_word_id"))
+    @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Category category;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove

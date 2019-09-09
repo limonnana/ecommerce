@@ -7,6 +7,7 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 
 import java.io.Serializable;
+import java.util.Set;
 
 /**
  * A Product.
@@ -21,6 +22,7 @@ public class Product implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
     @SequenceGenerator(name = "sequenceGenerator")
+    @Column(name = "product_id")
     private Long id;
 
     @NotNull
@@ -36,6 +38,15 @@ public class Product implements Serializable {
     @Transient
     @JsonProperty(value = "category")
     private Integer category;
+
+    @OneToMany(fetch = FetchType.EAGER, cascade=CascadeType.MERGE)
+    @JoinTable(
+        name = "product_key_words",
+        joinColumns = @JoinColumn(name = "product_id"),
+        inverseJoinColumns = @JoinColumn(name = "key_word_id")
+    )
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<KeyWord> keyWords;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -120,5 +131,13 @@ public class Product implements Serializable {
 
     public void setCategory(Integer category) {
         this.category = category;
+    }
+
+    public Set<KeyWord> getKeyWords() {
+        return keyWords;
+    }
+
+    public void setKeyWords(Set<KeyWord> keyWords) {
+        this.keyWords = keyWords;
     }
 }

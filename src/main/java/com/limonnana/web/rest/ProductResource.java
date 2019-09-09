@@ -3,6 +3,7 @@ package com.limonnana.web.rest;
 import com.limonnana.domain.Category;
 import com.limonnana.domain.Product;
 import com.limonnana.repository.CategoryRepository;
+import com.limonnana.repository.KeyWordRepository;
 import com.limonnana.repository.ProductRepository;
 import com.limonnana.web.rest.errors.BadRequestAlertException;
 
@@ -43,9 +44,12 @@ public class ProductResource {
    // @Autowired
     private final CategoryRepository categoryRepository;
 
-    public ProductResource(ProductRepository productRepository, CategoryRepository categoryRepository) {
+    private  final KeyWordRepository keyWordRepository;
+
+    public ProductResource(ProductRepository productRepository, CategoryRepository categoryRepository, KeyWordRepository keyWordRepository) {
         this.productRepository = productRepository;
         this.categoryRepository = categoryRepository;
+        this.keyWordRepository = keyWordRepository;
     }
 
     /**
@@ -80,7 +84,19 @@ public class ProductResource {
         Category category = categoryRepository.findById(product.getCategory().longValue()).get();
         Set<Product> productList = category.getProducts();
         productList.add(product);
-        categoryRepository.save(category);
+        category = categoryRepository.save(category);
+    }
+
+    private void saveKeyWordsInCategoryAndProduct(String keyWord, Category category){
+
+        Set<Category> categories = category.getCategories();
+        String[] keyWords = keyWord.split(",");
+
+        for(String key : keyWords){
+            String toFindInDb = key.toLowerCase().trim();
+            String inDb = keyWordRepository.
+        }
+
     }
 
     /**

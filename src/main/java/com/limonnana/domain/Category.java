@@ -31,7 +31,7 @@ public class Category implements Serializable {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @OneToMany(fetch = FetchType.EAGER, targetEntity=Category.class, cascade=CascadeType.MERGE)
+    @OneToMany(fetch = FetchType.EAGER, cascade=CascadeType.MERGE)
     @JoinTable(
         name = "category_childrens",
         joinColumns = @JoinColumn(name = "category_id"),

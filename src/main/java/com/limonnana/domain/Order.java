@@ -1,20 +1,20 @@
 package com.limonnana.domain;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "orders")
 public class Order {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
+    @SequenceGenerator(name = "sequenceGenerator")
+    @Column(name = "order_id")
     private Long id;
 
     //@JsonFormat(pattern = "dd/MM/yyyy")
@@ -22,8 +22,14 @@ public class Order {
 
     private String status;
 
-    @OneToMany(targetEntity=Product.class, cascade=CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<Product> productList = new ArrayList<>();
+    @OneToMany(fetch = FetchType.EAGER, cascade=CascadeType.MERGE)
+    @JoinTable(
+        name = "order_products",
+        joinColumns = @JoinColumn(name = "order_id"),
+        inverseJoinColumns = @JoinColumn(name = "product_id")
+    )
+    @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<Product> products = new HashSet<>();
 
     private Double totalOrderPrice;
 
@@ -33,7 +39,7 @@ public class Order {
 
     public Double getTotalOrderPrice() {
         double sum = 0D;
-        List<Product> orderProducts = getProductList();
+        Set<Product> orderProducts = getProducts();
         for (Product op : orderProducts) {
             sum += op.getPrice();
         }
@@ -67,14 +73,15 @@ public class Order {
 
     @Transient
     public int getNumberOfProducts() {
-        return this.getProductList().size();
+        return this.getProducts().size();
     }
 
-    public List<Product> getProductList() {
-        return productList;
+
+    public Set<Product> getProducts() {
+        return products;
     }
 
-    public void setProductList(List<Product> productList) {
-        this.productList = productList;
+    public void setProducts(Set<Product> products) {
+        this.products = products;
     }
 }

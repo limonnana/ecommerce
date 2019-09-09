@@ -92,8 +92,14 @@ public class User extends AbstractAuditingEntity implements Serializable {
     @BatchSize(size = 20)
     private Set<Authority> authorities = new HashSet<>();
 
-    @OneToMany(targetEntity=Order.class, cascade=CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Order> orderList = new ArrayList<>();
+    @OneToMany(fetch = FetchType.EAGER, cascade=CascadeType.MERGE)
+    @JoinTable(
+        name = "user_Orders",
+        joinColumns = @JoinColumn(name = "id"),
+        inverseJoinColumns = @JoinColumn(name = "order_id")
+    )
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<Order> orders = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -230,11 +236,12 @@ public class User extends AbstractAuditingEntity implements Serializable {
             "}";
     }
 
-    public List<Order> getOrderList() {
-        return orderList;
+
+    public Set<Order> getOrders() {
+        return orders;
     }
 
-    public void setOrderList(List<Order> orderList) {
-        this.orderList = orderList;
+    public void setOrders(Set<Order> orders) {
+        this.orders = orders;
     }
 }
