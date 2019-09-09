@@ -24,7 +24,7 @@ export class ProductUpdateComponent implements OnInit {
     price: [],
     category: [],
     pictureUrl: [],
-    keyWords: []
+    keyWord: []
   });
 
   constructor(
@@ -65,7 +65,7 @@ export class ProductUpdateComponent implements OnInit {
       price: product.price,
       category: product.category,
       pictureUrl: product.pictureUrl,
-      keyWords: product.keyWords
+      keyWord: product.keyWord
     });
   }
 
@@ -91,7 +91,7 @@ export class ProductUpdateComponent implements OnInit {
       price: this.editForm.get(['price']).value,
       category: this.editForm.get(['category']).value,
       pictureUrl: this.editForm.get(['pictureUrl']).value,
-      keyWords: this.editForm.get(['keyWords']).value
+      keyWord: this.editForm.get(['keyWord']).value
     };
   }
 

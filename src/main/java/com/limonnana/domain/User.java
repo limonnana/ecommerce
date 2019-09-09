@@ -92,7 +92,7 @@ public class User extends AbstractAuditingEntity implements Serializable {
     @BatchSize(size = 20)
     private Set<Authority> authorities = new HashSet<>();
 
-    @OneToMany(fetch = FetchType.EAGER, cascade=CascadeType.MERGE)
+    @OneToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
     @JoinTable(
         name = "user_Orders",
         joinColumns = @JoinColumn(name = "id"),

@@ -2,6 +2,7 @@ package com.limonnana.web.rest;
 
 import com.limonnana.domain.Category;
 import com.limonnana.repository.CategoryRepository;
+import com.limonnana.service.CategoryService;
 import com.limonnana.web.rest.errors.BadRequestAlertException;
 
 import io.github.jhipster.web.util.HeaderUtil;
@@ -42,8 +43,11 @@ public class CategoryResource {
 
     private final CategoryRepository categoryRepository;
 
-    public CategoryResource(CategoryRepository categoryRepository) {
+    private final CategoryService categoryService;
+
+    public CategoryResource(CategoryRepository categoryRepository, CategoryService categoryService) {
         this.categoryRepository = categoryRepository;
+        this.categoryService = categoryService;
     }
 
     /**
@@ -120,8 +124,9 @@ public class CategoryResource {
     @GetMapping("/categories/{id}")
     public ResponseEntity<Category> getCategory(@PathVariable Long id) {
         log.debug("REST request to get Category : {}", id);
-        Optional<Category> category = categoryRepository.findById(id);
-        return ResponseUtil.wrapOrNotFound(category);
+       // Optional<Category> category = categoryRepository.findById(id);
+        Category category = categoryService.findById(id);
+        return ResponseEntity.ok().body(category);
     }
 
     /**

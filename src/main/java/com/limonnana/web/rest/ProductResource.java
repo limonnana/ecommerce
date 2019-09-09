@@ -1,10 +1,12 @@
 package com.limonnana.web.rest;
 
 import com.limonnana.domain.Category;
+import com.limonnana.domain.KeyWord;
 import com.limonnana.domain.Product;
 import com.limonnana.repository.CategoryRepository;
 import com.limonnana.repository.KeyWordRepository;
 import com.limonnana.repository.ProductRepository;
+import com.limonnana.service.CategoryService;
 import com.limonnana.web.rest.errors.BadRequestAlertException;
 
 import io.github.jhipster.web.util.HeaderUtil;
@@ -21,6 +23,7 @@ import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -41,15 +44,17 @@ public class ProductResource {
 
     private final ProductRepository productRepository;
 
-   // @Autowired
     private final CategoryRepository categoryRepository;
 
     private  final KeyWordRepository keyWordRepository;
 
-    public ProductResource(ProductRepository productRepository, CategoryRepository categoryRepository, KeyWordRepository keyWordRepository) {
+    private final CategoryService categoryService;
+
+    public ProductResource(ProductRepository productRepository, CategoryRepository categoryRepository, KeyWordRepository keyWordRepository, CategoryService categoryService) {
         this.productRepository = productRepository;
         this.categoryRepository = categoryRepository;
         this.keyWordRepository = keyWordRepository;
+        this.categoryService = categoryService;
     }
 
     /**
@@ -66,37 +71,81 @@ public class ProductResource {
         if (product.getId() != null) {
             throw new BadRequestAlertException("A new product cannot already have an ID", ENTITY_NAME, "idexists");
         }
+        /*
        if(product.getCategory() != null && product.getCategory().intValue() > 0 ) {
-           saveProductInCategory(product);
-           result = new Product();
-           result.setId(1L);
-       }else
+           result = saveProductInCategory(product);
+       }
+        else
        {
            result = productRepository.save(product);
        }
+
+        if(result.getKeyWord() == null){
+            result.setKeyWord(product.getKeyWord());
+        }
+        if(result.getCategory() == null){
+            result.setCategory(product.getCategory());
+        }
+       */
+        //saveKeyWordsInCategoryAndProduct(product);
+        categoryService.saveKeyWordsInCategoryAndProduct(product);
+        Product p = new Product();
+        p.setId(1L);
+        result = p;
 
         return ResponseEntity.created(new URI("/api/products/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
             .body(result);
     }
 
-    private void saveProductInCategory(@RequestBody @Valid Product product) {
+
+    private Product saveProductInCategory(@RequestBody @Valid Product product) {
         Category category = categoryRepository.findById(product.getCategory().longValue()).get();
         Set<Product> productList = category.getProducts();
         productList.add(product);
         category = categoryRepository.save(category);
+        for(Product p : category.getProducts()){
+            if(p.getName().equals(product.getName())){
+                product = p;
+                break;
+            }
+        }
+        return product;
     }
 
-    private void saveKeyWordsInCategoryAndProduct(String keyWord, Category category){
+    private Product saveKeyWordsInCategoryAndProduct(Product product){
 
-        Set<Category> categories = category.getCategories();
-        String[] keyWords = keyWord.split(",");
+        Category category = categoryRepository.findById(product.getCategory().longValue()).get();
+        Hibernate.initialize(category.getProducts());
+        String[] keyWords = product.getKeyWord().split(",");
+        KeyWord k = new KeyWord();
 
         for(String key : keyWords){
-            String toFindInDb = key.toLowerCase().trim();
-            String inDb = keyWordRepository.
+            String keyClean = key.toLowerCase().trim();
+            Optional<KeyWord> inDb = keyWordRepository.findOneByName(keyClean);
+            if(!inDb.isPresent()){
+                k.setName(keyClean);
+                k.setCategory(category);
+             //   k = keyWordRepository.save(k);
+            }else{
+                k = inDb.get();
+            }
+            if(product.getKeyWords() == null){
+                product.setKeyWords(new HashSet<KeyWord>());
+            }
+            product.getKeyWords().add(k);
         }
 
+        Set<Product> productList = category.getProducts();
+        productList.add(product);
+        category = categoryRepository.save(category);
+        for(Product p : category.getProducts()){
+            if(p.getName().equals(product.getName())){
+                product = p;
+                break;
+            }
+        }
+        return product;
     }
 
     /**

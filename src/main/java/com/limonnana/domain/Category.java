@@ -31,7 +31,7 @@ public class Category implements Serializable {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade=CascadeType.MERGE)
+    @OneToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
     @JoinTable(
         name = "category_childrens",
         joinColumns = @JoinColumn(name = "category_id"),
@@ -40,7 +40,7 @@ public class Category implements Serializable {
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Category> categories;
 
-    @OneToMany(fetch = FetchType.EAGER, targetEntity=Product.class, cascade=CascadeType.MERGE)
+    @OneToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
     @JoinTable(
         name = "category_products",
         joinColumns = @JoinColumn(name = "category_id"),

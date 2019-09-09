@@ -39,7 +39,11 @@ public class Product implements Serializable {
     @JsonProperty(value = "category")
     private Integer category;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade=CascadeType.MERGE)
+    @Transient
+    @JsonProperty(value = "keyWord")
+    private String keyWord;
+
+    @OneToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
     @JoinTable(
         name = "product_key_words",
         joinColumns = @JoinColumn(name = "product_id"),
@@ -139,5 +143,13 @@ public class Product implements Serializable {
 
     public void setKeyWords(Set<KeyWord> keyWords) {
         this.keyWords = keyWords;
+    }
+
+    public String getKeyWord() {
+        return keyWord;
+    }
+
+    public void setKeyWord(String keyWord) {
+        this.keyWord = keyWord;
     }
 }
