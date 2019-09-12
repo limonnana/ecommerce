@@ -5,6 +5,7 @@ export interface IProduct {
   category?: string;
   pictureUrl?: string;
   keyWord?: string;
+  keyWords?: string;
 }
 
 export class Product implements IProduct {
@@ -14,6 +15,7 @@ export class Product implements IProduct {
     public price?: number,
     public category?: string,
     public pictureUrl?: string,
-    public keyWord?: string
+    public keyWord?: string,
+    public keyWords?: string
   ) {}
 }

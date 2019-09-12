@@ -7,6 +7,7 @@ import com.limonnana.repository.CategoryRepository;
 import com.limonnana.repository.KeyWordRepository;
 import com.limonnana.repository.ProductRepository;
 import com.limonnana.service.CategoryService;
+import com.limonnana.service.ProductService;
 import com.limonnana.web.rest.errors.BadRequestAlertException;
 
 import io.github.jhipster.web.util.HeaderUtil;
@@ -42,6 +43,8 @@ public class ProductResource {
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
 
+    private final ProductService productService;
+
     private final ProductRepository productRepository;
 
     private final CategoryRepository categoryRepository;
@@ -50,11 +53,18 @@ public class ProductResource {
 
     private final CategoryService categoryService;
 
-    public ProductResource(ProductRepository productRepository, CategoryRepository categoryRepository, KeyWordRepository keyWordRepository, CategoryService categoryService) {
+    public ProductResource(
+                           ProductRepository productRepository,
+                           CategoryRepository categoryRepository,
+                           KeyWordRepository keyWordRepository,
+                           CategoryService categoryService,
+                           ProductService productService
+    ) {
         this.productRepository = productRepository;
         this.categoryRepository = categoryRepository;
         this.keyWordRepository = keyWordRepository;
         this.categoryService = categoryService;
+        this.productService = productService;
     }
 
     /**
@@ -198,8 +208,9 @@ public class ProductResource {
     @GetMapping("/products/{id}")
     public ResponseEntity<Product> getProduct(@PathVariable Long id) {
         log.debug("REST request to get Product : {}", id);
-        Optional<Product> product = productRepository.findById(id);
-        return ResponseUtil.wrapOrNotFound(product);
+        Product product = productService.getProduct(id);
+
+        return ResponseEntity.ok().body(product);
     }
 
     /**

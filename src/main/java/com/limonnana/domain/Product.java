@@ -43,7 +43,7 @@ public class Product implements Serializable {
     @JsonProperty(value = "keyWord")
     private String keyWord;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
     @JoinTable(
         name = "product_key_words",
         joinColumns = @JoinColumn(name = "product_id"),

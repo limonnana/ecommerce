@@ -6,6 +6,7 @@ import com.limonnana.repository.CategoryRepository;
 import com.limonnana.repository.KeyWordRepository;
 import com.limonnana.repository.ProductRepository;
 import com.limonnana.service.CategoryService;
+import com.limonnana.service.ProductService;
 import com.limonnana.web.rest.errors.ExceptionTranslator;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -59,6 +60,9 @@ public class ProductResourceIT {
     CategoryService categoryService;
 
     @Autowired
+    ProductService productService;
+
+    @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Autowired
@@ -80,7 +84,7 @@ public class ProductResourceIT {
     @BeforeEach
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final ProductResource productResource = new ProductResource(productRepository, categoryRepository, keyWordRepository, categoryService);
+        final ProductResource productResource = new ProductResource(productRepository, categoryRepository, keyWordRepository, categoryService, productService);
         this.restProductMockMvc = MockMvcBuilders.standaloneSetup(productResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
