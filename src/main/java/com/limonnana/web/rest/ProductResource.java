@@ -81,23 +81,7 @@ public class ProductResource {
         if (product.getId() != null) {
             throw new BadRequestAlertException("A new product cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        /*
-       if(product.getCategory() != null && product.getCategory().intValue() > 0 ) {
-           result = saveProductInCategory(product);
-       }
-        else
-       {
-           result = productRepository.save(product);
-       }
-
-        if(result.getKeyWord() == null){
-            result.setKeyWord(product.getKeyWord());
-        }
-        if(result.getCategory() == null){
-            result.setCategory(product.getCategory());
-        }
-       */
-        //saveKeyWordsInCategoryAndProduct(product);
+       
         categoryService.saveKeyWordsInCategoryAndProduct(product);
         Product p = new Product();
         p.setId(1L);

@@ -1,17 +1,13 @@
 <div class="row justify-content-center">
     <div class="col-8">
-
-       
-            <!--div class="form-group">
-              <input type="text" class="form-control" name="searchField" id="field_searchField"
-                       formControlName="searchField"/>
-            </div-->
-
+      <form name="searchForm" role="form"  (ngSubmit)="search()" [formGroup]="searchForm">
             <div class="input-group mb-3">
                 <input type="text" class="form-control" name="searchField" id="field_searchField"
-                formControlName="searchField" placeholder="Search" aria-label="Search" aria-describedby="basic-addon2">
+                formControlName="searchField"  aria-describedby="basic-addon2">
                 <div class="input-group-append">
-                       <span class="input-group-text" id="basic-addon2">Search</span>
+                  
+                    <button class="btn btn-outline-secondary" type="button">Search</button>
+                       <!---input class="input-group-text" id="basic-addon2" type="submit" value="Search"-->
                 </div>
               </div>
 
