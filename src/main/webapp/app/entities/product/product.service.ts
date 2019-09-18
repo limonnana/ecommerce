@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { SERVER_API_URL } from 'app/app.constants';
 import { createRequestOption } from 'app/shared';
 import { IProduct } from 'app/shared/model/product.model';
+import { ISearch } from 'app/shared/model/search.model';
 
 type EntityResponseType = HttpResponse<IProduct>;
 type EntityArrayResponseType = HttpResponse<IProduct[]>;
@@ -17,6 +18,10 @@ export class ProductService {
 
   create(product: IProduct): Observable<EntityResponseType> {
     return this.http.post<IProduct>(this.resourceUrl, product, { observe: 'response' });
+  }
+
+  search(query: ISearch): Observable<EntityArrayResponseType> {
+    return this.http.post<IProduct[]>(this.resourceUrl + 'Search', query, { observe: 'response' });
   }
 
   update(product: IProduct): Observable<EntityResponseType> {

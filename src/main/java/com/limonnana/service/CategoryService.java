@@ -50,20 +50,20 @@ public class CategoryService {
 
         for(String key : keyWords){
             String keyClean = key.toLowerCase().trim();
-            Optional<KeyWord> inDb = keyWordRepository.findOneByName(keyClean);
-            if(!inDb.isPresent()){
+            KeyWord inDb = keyWordRepository.findKeyWordByName(keyClean);
+            if(inDb == null){
                 k.setName(keyClean);
                 k.setCategory(category);
-
+                k = keyWordRepository.save(k);
             }else{
-                k = inDb.get();
+                k = inDb;
             }
             if(product.getKeyWords() == null){
                 product.setKeyWords(new HashSet<KeyWord>());
             }
             product.getKeyWords().add(k);
         }
-
+        product = productRepository.save(product);
         Hibernate.initialize(category.getProducts());
         Set<Product> productList = category.getProducts();
         productList.add(product);

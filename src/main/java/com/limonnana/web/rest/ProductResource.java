@@ -3,6 +3,7 @@ package com.limonnana.web.rest;
 import com.limonnana.domain.Category;
 import com.limonnana.domain.KeyWord;
 import com.limonnana.domain.Product;
+import com.limonnana.domain.SearchDTO;
 import com.limonnana.repository.CategoryRepository;
 import com.limonnana.repository.KeyWordRepository;
 import com.limonnana.repository.ProductRepository;
@@ -24,10 +25,7 @@ import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 /**
  * REST controller for managing {@link com.limonnana.domain.Product}.
@@ -81,7 +79,7 @@ public class ProductResource {
         if (product.getId() != null) {
             throw new BadRequestAlertException("A new product cannot already have an ID", ENTITY_NAME, "idexists");
         }
-       
+
         categoryService.saveKeyWordsInCategoryAndProduct(product);
         Product p = new Product();
         p.setId(1L);
@@ -90,56 +88,6 @@ public class ProductResource {
         return ResponseEntity.created(new URI("/api/products/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
             .body(result);
-    }
-
-
-    private Product saveProductInCategory(@RequestBody @Valid Product product) {
-        Category category = categoryRepository.findById(product.getCategory().longValue()).get();
-        Set<Product> productList = category.getProducts();
-        productList.add(product);
-        category = categoryRepository.save(category);
-        for(Product p : category.getProducts()){
-            if(p.getName().equals(product.getName())){
-                product = p;
-                break;
-            }
-        }
-        return product;
-    }
-
-    private Product saveKeyWordsInCategoryAndProduct(Product product){
-
-        Category category = categoryRepository.findById(product.getCategory().longValue()).get();
-        Hibernate.initialize(category.getProducts());
-        String[] keyWords = product.getKeyWord().split(",");
-        KeyWord k = new KeyWord();
-
-        for(String key : keyWords){
-            String keyClean = key.toLowerCase().trim();
-            Optional<KeyWord> inDb = keyWordRepository.findOneByName(keyClean);
-            if(!inDb.isPresent()){
-                k.setName(keyClean);
-                k.setCategory(category);
-             //   k = keyWordRepository.save(k);
-            }else{
-                k = inDb.get();
-            }
-            if(product.getKeyWords() == null){
-                product.setKeyWords(new HashSet<KeyWord>());
-            }
-            product.getKeyWords().add(k);
-        }
-
-        Set<Product> productList = category.getProducts();
-        productList.add(product);
-        category = categoryRepository.save(category);
-        for(Product p : category.getProducts()){
-            if(p.getName().equals(product.getName())){
-                product = p;
-                break;
-            }
-        }
-        return product;
     }
 
     /**
@@ -159,7 +107,8 @@ public class ProductResource {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
         if(product.getCategory() != null && product.getCategory().intValue() > 0 ) {
-            saveProductInCategory(product);
+            //saveProductInCategory(product);
+            categoryService.saveKeyWordsInCategoryAndProduct(product);
             result = new Product();
             result.setId(1L);
         }else
@@ -181,6 +130,13 @@ public class ProductResource {
     public List<Product> getAllProducts() {
         log.debug("REST request to get all Products");
         return productRepository.findAll();
+    }
+
+    @PostMapping("/productsSearch")
+    public List<Product> searchProducts(@RequestBody SearchDTO query) {
+        log.debug("REST request to get all Products Search: " + query.getQuery());
+        List list = new ArrayList(productService.findAllByKeyWord(query));
+        return list;
     }
 
     /**
@@ -209,4 +165,6 @@ public class ProductResource {
         productRepository.deleteById(id);
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString())).build();
     }
+
+
 }

@@ -18,7 +18,7 @@ export class LoginService {
           return cb();
         },
         err => {
-          this.logout();
+          this.authServerProvider.logout().subscribe(null, null, () => this.accountService.authenticate(null));
           reject(err);
           return cb(err);
         }

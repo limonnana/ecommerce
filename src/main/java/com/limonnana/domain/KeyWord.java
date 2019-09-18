@@ -30,7 +30,7 @@ public class KeyWord implements Serializable {
     private String name;
 
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER, cascade=CascadeType.MERGE)
     @JoinTable(name = "key_word_categories",
         joinColumns = @JoinColumn(name = "category_id"),
         inverseJoinColumns = @JoinColumn(name = "key_word_id"))
